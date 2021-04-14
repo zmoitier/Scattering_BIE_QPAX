@@ -195,7 +195,7 @@ def laplace_mtr(boundary, trace, nb, ε, matrix=False):
     return μ, cond(A), θ
 
 
-def laplace_qpax(boundary, trace_ev_od, N, ε, matrix=False):
+def laplace_qpax(ε, trace_ev_od, N, matrix=False):
     """
     μ, c, θ = laplace_asy(boundary, trace_ev_od, N, ε, matrix=False)
 
