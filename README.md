@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/357627837.svg)](https://zenodo.org/badge/latestdoi/357627837)
+
 # Scattering_BIE_QPAX
 
 Code for computing the scattering by a high aspect ratio ellipse using boundary integral equation methods.
