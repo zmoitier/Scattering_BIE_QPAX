@@ -2,11 +2,11 @@
 
 # Scattering_BIE_QPAX
 
-Code for computing the scattering by a high aspect ratio ellipse using boundary integral equation methods.
+Quadrature by Parity eXpansions method for computing the scattering by a high aspect ratio ellipse using boundary integral equation methods.
 
 ## Reference
 
-This is the code associated with the article:
+Codes are associated with the article:
 
 - C. Carvalho, A. D. Kim, L. Lewis, and Z. Moitier, _Quadrature by Parity Asymptotic eXpansions (QPAX) for scattering by high aspect ratio particles_. [in preparation]
 
@@ -44,6 +44,7 @@ git clone https://github.com/zmoitier/Scattering_BIE_QPAX.git
 ### Notebook version
 
 Run the Jupyter notebook `run_fig_n.ipynb` to get the corresponding figure `n` in the paper.
+Run the Jupyter notebook `inner_expansions.ipynb` in the Symbolic_expansions folder to get the corresponding inner expansions for Laplace and Helmholtz double-layer potentials.
 
 ### Script version
 
@@ -51,6 +52,8 @@ In the current directory run
 
 ```bash
 python3 -m Scripts.run_fig_n
+or
+python -m Scripts.run_fig_n
 ```
 
 to get the corresponding figure `n` in the paper.
