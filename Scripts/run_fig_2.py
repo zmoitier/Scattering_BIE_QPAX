@@ -1,3 +1,9 @@
+""" Code to produce figure 2
+
+    Zoïs Moitier (2021)
+    Karlsruhe Institute of Technology, Germany
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Ellipse, Rectangle
@@ -93,7 +99,7 @@ def plot_field(H, type_field):
     if type_field.startswith("in"):
         u = Analytic.eval_field(in_field, ξ, η)
 
-        artist = lambda: Rectangle((-5, -5), 10, 10, fill=False, ec="k", lw=1)
+        artist = lambda: Rectangle((-5, -5), 10, 10, fill=False, ec="k", lw=2)
         title = "Incident field"
 
     if type_field.startswith("sc"):
@@ -101,7 +107,7 @@ def plot_field(H, type_field):
         u = np.zeros_like(ξ, dtype=complex)
         u[ind_ext] = Analytic.eval_field(sc_field, ξ[ind_ext], η[ind_ext])
 
-        artist = lambda: Ellipse((0, 0), 2 * ε, 2, fc=(0.75, 0.75, 0.75), ec="k", lw=1)
+        artist = lambda: Ellipse((0, 0), 2 * ε, 2, fc=(0.75, 0.75, 0.75), ec="k", lw=2)
         title = "Scattered field"
 
     if type_field.startswith("tt"):
@@ -111,7 +117,7 @@ def plot_field(H, type_field):
             sc_field, ξ[ind_ext], η[ind_ext]
         ) + Analytic.eval_field(in_field, ξ[ind_ext], η[ind_ext])
 
-        artist = lambda: Ellipse((0, 0), 2 * ε, 2, fc=(0.75, 0.75, 0.75), ec="k", lw=1)
+        artist = lambda: Ellipse((0, 0), 2 * ε, 2, fc=(0.75, 0.75, 0.75), ec="k", lw=2)
         title = "Total field"
 
     four_plots(x, y, u, artist, title)

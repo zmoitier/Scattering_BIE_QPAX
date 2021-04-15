@@ -1,9 +1,16 @@
+""" Code to produce figure 3
+
+    Zoïs Moitier (2021)
+    Karlsruhe Institute of Technology, Germany
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 import Analytic
 import BIE
 
+## Discretization parameters
 N = 64  # Number of quadrature points
 nb_ε = 16  # Number of ε
 ε_min, ε_max = 1e-8, 0.9  # Limits for ε

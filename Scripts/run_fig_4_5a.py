@@ -1,11 +1,20 @@
+""" Code to produce figure 4 and 5a
+
+    Zoïs Moitier (2021)
+    Karlsruhe Institute of Technology, Germany
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 import Analytic
 import BIE
 
-k = 2  # Wavenumber
+## Incident field parameters
+α = 0  # (cos(α), sin(α)) direction of the plane wave
+k = 2  # wavenumber direction of the plane wave
 
+## Discretization parameters
 N = 64  # Number of quadrature points
 nb_ε = 16  # Number of ε
 ε_min, ε_max = 1e-8, 0.9  # Limits for ε
@@ -13,11 +22,6 @@ nb_ε = 16  # Number of ε
 
 def calc_err(result, u_ana, u_max):
     return np.abs(result[0] - u_ana).max() / u_max
-
-
-def u_in_bie(c, in_field, x, y):
-    ξ, η = Analytic.to_elliptic(c, x, y)
-    return Analytic.eval_field(in_field, ξ, η)
 
 
 def plot_err(type, m, slope):
@@ -44,7 +48,13 @@ def plot_err(type, m, slope):
                 c, k, [[], [], [], []], [[(m, 1)], [], [], []]
             )
 
-        trace = lambda x, y: u_in_bie(c, in_field, x, y)
+        if type.startswith("ful"):
+            in_field = Analytic.field_plane_wave(α, k, c, m)
+
+        def trace(x, y):
+            ξ, η = Analytic.to_elliptic(c, x, y)
+            return Analytic.eval_field(in_field, ξ, η)
+
         sc_field = Analytic.solve_field(in_field, ξ0, 1)
 
         u_ana = Analytic.eval_field(sc_field, ξ, η) + Analytic.eval_field(
@@ -91,4 +101,7 @@ plot_err("even", 3, (True, True))
 plt.show()
 
 plot_err("odd", 2, (True, False))
+plt.show()
+
+plot_err("full", 15, (True, False))
 plt.show()

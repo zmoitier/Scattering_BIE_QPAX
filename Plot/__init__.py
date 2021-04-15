@@ -3,6 +3,11 @@
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
 
-    Last modified: 13/04/2021
+    Last modified: 15/04/2021
 """
-from .utils_plot import add_elem, logspace_epsilon, logspace_quadrature
+from .discretization import (
+    add_elem,
+    linspace_alpha,
+    logspace_epsilon,
+    logspace_quadrature,
+)
