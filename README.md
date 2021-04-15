@@ -19,10 +19,17 @@ This is the code associated with the article:
 
 - Require the following libraries:
 
-  - [Matplotlib](https://github.com/matplotlib/matplotlib),
-  - [NumPy](https://github.com/numpy/numpy),
-  - [SciPy](https://github.com/scipy/scipy),
-  - [seaborn](https://github.com/mwaskom/seaborn).
+  - Numerical computation: [NumPy](https://github.com/numpy/numpy) (≥ 1.20.2) and [SciPy](https://github.com/scipy/scipy) (≥ 1.6.2);
+
+  - Visualization; [Matplotlib](https://github.com/matplotlib/matplotlib) (≥ 3.4.1) and [seaborn](https://github.com/mwaskom/seaborn) (≥ 0.11.1);
+
+  - Formal computation: [SymPy](https://github.com/sympy/sympy) (≥ 1.8).
+
+Might works with previous versions of the libraries but if it does not works try to update the library for example through pip
+
+```bash
+python3 -m pip install --user --upgrade matplotlib numpy seaborn scipy sympy
+```
 
 ## Install
 
