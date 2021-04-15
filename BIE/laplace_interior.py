@@ -3,7 +3,7 @@
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
 
-    Last modified: 07/04/2021
+    Last modified: 15/04/2021
 """
 from math import atan
 
@@ -12,9 +12,8 @@ from numpy.linalg import cond
 from scipy.linalg import solve
 from scipy.sparse import identity
 
-from .grid import grid, grid_arc_length, parity_base
+from .grid import grid, parity_base
 from .matrix_LH1 import matrix_L1_ev, matrix_L1_od
-from .quadrature import pqr_eps_weight
 
 
 def laplace_ptr(boundary, trace, nb, matrix=False):
@@ -65,61 +64,6 @@ def laplace_ptr(boundary, trace, nb, matrix=False):
     kernel[(range(nb), range(nb))] = (
         (-1 / (2 * nb)) * jac[(range(nb), range(nb))] * boundary.curvature(θ)
     )
-
-    A = -0.5 * identity(nb) + kernel
-    μ = solve(A, trace(θ))
-
-    if matrix:
-        return μ, A, θ
-
-    return μ, cond(A), θ
-
-
-def laplace_atr(boundary, trace, nb, ε, matrix=False):
-    """
-    μ, c, θ = laplace_atr(boundary, trace, nb, matrix=False)
-
-    The PTR method for the Laplace problem.
-
-    Parameters
-    ----------
-    boundary : Boundary
-        Boundary object
-    trace : function
-        the function θ ↦ f(θ) the source term of the BIE
-    nb : int
-        number of grid points
-    matrix : bool (default False)
-        c is the condition number if matrix=False and the matrix if matrix=True
-
-    Returns
-    -------
-    μ : vector
-        the solution
-    c : float or matrix
-        the condition number if matrix=False and the matrix if matrix=True
-    θ : vector
-        θ-grid of the boundary
-    """
-
-    θ, Δθ, S, T = grid_arc_length(ε, nb, mesh_grid=True)
-
-    x_s, y_s = boundary.gamma(S)
-    x_t, y_t = boundary.gamma(T)
-    ν_x, ν_y = boundary.normal_ext(T)
-
-    xdiff, ydiff = x_s - x_t, y_s - y_t
-    dist2 = xdiff ** 2 + ydiff ** 2
-
-    not_zero = np.where(np.greater(np.abs(S - T), Δθ / 2))
-
-    kernel = np.empty((nb, nb))
-    kernel[not_zero] = (
-        (Δθ / (2 * np.pi))
-        * (ν_x[not_zero] * xdiff[not_zero] + ν_y[not_zero] * ydiff[not_zero])
-        / dist2[not_zero]
-    )
-    kernel[(range(nb), range(nb))] = (-Δθ / (4 * np.pi)) * boundary.curvature(θ)
 
     A = -0.5 * identity(nb) + kernel
     μ = solve(A, trace(θ))
@@ -258,56 +202,3 @@ def laplace_qpax(ε, trace_ev_od, N, matrix=False):
         return μ, P @ (L @ Q), θ
 
     return μ, cond(L1_od), θ
-
-
-def laplace_pqr(boundary, trace, nb, ε, matrix=False):
-    """
-    μ, c, θ = laplace_pqr(boundary, trace, nb, ε, matrix=False)
-
-    The εPQR method for the Laplace problem.
-
-    Parameters
-    ----------
-    boundary : Boundary
-        Boundary object
-    trace : function
-        the function θ ↦ f(θ) the source term of the BIE
-    nb : int
-        number of grid points
-    ε : float
-        semi-minor axis of the ellipse
-    matrix : bool (default False)
-        c is the condition number if matrix=False and the matrix if matrix=True
-
-    Returns
-    -------
-    μ : vector
-        the solution
-    c : float or matrix
-        the condition number if matrix=False and the matrix if matrix=True
-    θ : vector
-        θ-grid of the boundary
-    """
-
-    θ, Δθ, S, T = grid(nb, mesh_grid=True)
-    A = -0.5 * identity(nb) + pqr_eps_weight(ε, nb, S, T)
-
-    P, Q = parity_base(nb)
-    B = Q @ (A @ P)
-    BE = B[: nb // 2 + 1, : nb // 2 + 1]
-    BO = B[nb // 2 + 1 :, nb // 2 + 1 :]
-
-    f = Q @ trace(θ)
-    fe, fo = f[: nb // 2 + 1], f[nb // 2 + 1 :]
-
-    μ = np.zeros_like(f)
-    if not np.allclose(fe, 0, rtol=0, atol=1e-10):
-        μ[: nb // 2 + 1] = solve(BE, fe)
-
-    if not np.allclose(fo, 0, rtol=0, atol=1e-10):
-        μ[nb // 2 + 1 :] = solve(BO, fo)
-
-    if matrix:
-        return P @ μ, A, θ
-
-    return P @ μ, max(cond(BE), cond(BO)), θ

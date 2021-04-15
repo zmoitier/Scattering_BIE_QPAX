@@ -3,7 +3,7 @@
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
 
-    Last modified: 07/04/2021
+    Last modified: 15/04/2021
 """
 from math import atan
 
@@ -15,7 +15,7 @@ from scipy.special import hankel1, jv
 
 from .grid import grid, parity_base
 from .matrix_LH1 import matrix_H1_ev, matrix_H1_od
-from .quadrature import kress_weight, pqr_eps_weight
+from .quadrature import kress_weight
 
 
 def helmholtz_pqr(boundary, k, trace, nb, matrix=False):
@@ -252,87 +252,6 @@ def helmholtz_qpax(ε, k, expan_trace, N, matrix=False):
         return μ, P @ (L @ Q), θ
 
     return μ, cond(H1_od), θ
-
-
-def helmholtz_epqr(boundary, k, trace, nb, ε, matrix=False):
-    """
-    μ, c, θ = helmholtz_mpqr(boundary, k, trace, nb, ε, matrix=False)
-
-    The εPQR method for the Helmholtz problem.
-
-    Parameters
-    ----------
-    boundary : Boundary
-        Boundary object
-    k : float
-        wavenumber
-    trace : function
-        the function θ ↦ f(θ) the source term of the BIE
-    nb : int
-        number of grid points
-    ε : float
-        semi-minor axis of the ellipse
-    matrix : bool (default False)
-        c is the condition number if matrix=False and the matrix if matrix=True
-
-    Returns
-    -------
-    μ : vector
-        the solution
-    c : float or matrix
-        the condition number if matrix=False and the matrix if matrix=True
-    θ : vector
-        θ-grid of the boundary
-    """
-
-    θ, Δθ, S, T = grid(nb, mesh_grid=True)
-
-    not_zero = np.where(np.greater(np.abs(S - T), Δθ / 2))
-
-    r = np.hypot(ε ** 2 * (np.cos(S) - np.cos(T)), np.sin(S) - np.sin(T))
-
-    K1 = np.empty((nb, nb))
-    K1[not_zero] = (
-        (-k / (4 * np.pi) * ε)
-        * (-1 + np.cos(S[not_zero] + T[not_zero]))
-        * jv(1, k * r[not_zero])
-        / r[not_zero]
-    )
-    K1[(range(nb), range(nb))] = (ε * k ** 2 / (4 * np.pi)) * np.sin(θ) ** 2
-
-    H2 = np.empty((nb, nb), dtype=complex)
-    H2[not_zero] = (
-        (k / 2)
-        * r[not_zero]
-        * (
-            1j * np.pi * hankel1(1, k * r[not_zero])
-            + jv(1, k * r[not_zero])
-            * np.log(4 * np.sin((S[not_zero] - T[not_zero]) / 2) ** 2)
-        )
-    )
-    H2[(range(nb), range(nb))] = 1
-
-    H = 0.5 * identity(nb) - kress_weight(nb) * K1 - pqr_eps_weight(ε, nb, S, T) * H2
-
-    P, Q = parity_base(nb)
-    B1 = Q @ (H @ P)
-    BE = B1[: nb // 2 + 1, : nb // 2 + 1]
-    BO = B1[nb // 2 + 1 :, nb // 2 + 1 :]
-
-    f = Q @ trace(*boundary.gamma(θ))
-    fe, fo = f[: nb // 2 + 1], f[nb // 2 + 1 :]
-
-    μ = np.zeros_like(f)
-    if not np.allclose(fe, 0, rtol=0, atol=1e-10):
-        μ[: nb // 2 + 1] = solve(BE, fe)
-
-    if not np.allclose(fo, 0, rtol=0, atol=1e-10):
-        μ[nb // 2 + 1 :] = solve(BO, fo)
-
-    if matrix:
-        return P @ μ, H, θ
-
-    return P @ μ, max(cond(BE), cond(BO)), θ
 
 
 def far_field(N, ε, k, u):

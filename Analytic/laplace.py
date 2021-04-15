@@ -3,9 +3,9 @@
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
 
-    Last modified: 16/02/2021
+    Last modified: 15/04/2021
 """
-from numpy import cos, sin
+import numpy as np
 from sympy import lambdify, symbols
 
 
@@ -38,10 +38,10 @@ def laplace_sol_eve(m, ε):
 
     if m % 2:
         c = (-2 / (1 - ρ ** m)).factor()
-        cossin = sin
+        cossin = np.sin
     else:
         c = (-2 / (1 + ρ ** m)).factor()
-        cossin = cos
+        cossin = np.cos
 
     fct = lambdify(e, c)
     return (lambda θ: cossin(m * θ), lambda θ: fct(ε) * cossin(m * θ))
@@ -76,10 +76,10 @@ def laplace_sol_odd(m, ε):
 
     if m % 2:
         c = (-2 / (1 + ρ ** m)).factor()
-        cossin = cos
+        cossin = np.cos
     else:
         c = (-2 / (1 - ρ ** m)).factor()
-        cossin = sin
+        cossin = np.sin
 
     fct = lambdify(e, c)
     return (lambda θ: cossin(m * θ), lambda θ: fct(ε) * cossin(m * θ))

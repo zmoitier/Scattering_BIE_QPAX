@@ -1,7 +1,13 @@
-""" Utilities for elliptical coordinates """
+""" Utilities for elliptical coordinates
+
+    Author: Zoïs Moitier
+            Karlsruhe Institute of Technology, Germany
+
+    Last modified: 15/04/2021
+"""
 from math import atanh, sqrt
 
-from numpy import arccosh, imag, real
+import numpy as np
 
 
 def to_elliptic(c, x, y):
@@ -32,8 +38,8 @@ def to_elliptic(c, x, y):
         ``angular'' coordinate
     """
 
-    w = arccosh((y + 1j * x) / abs(c))
-    return (real(w), imag(w))
+    w = np.arccosh((y + 1j * x) / abs(c))
+    return (np.real(w), np.imag(w))
 
 
 def ellipse_param(a, b):

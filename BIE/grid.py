@@ -3,12 +3,10 @@
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
 
-    Last modified: 06/04/2021
+    Last modified: 15/04/2021
 """
 import numpy as np
-from scipy.optimize import brentq
 from scipy.sparse import coo_matrix
-from scipy.special import ellipe, ellipeinc
 
 
 def grid(N, mesh_grid=False):
@@ -43,51 +41,6 @@ def grid(N, mesh_grid=False):
         return θ, Δθ, S, T
 
     return θ, Δθ
-
-
-def grid_arc_length(ε, N, mesh_grid=False):
-    """
-    s, Δs, S, T = grid_arc_length(ε, N, mesh_grid=False)
-
-    Return the N equi-space point in arc length of the grid [0, L) where L is the
-    length of the ellipse of semi-major-axis 1 and semi-minor-axis ε.
-
-    Parameters
-    ----------
-    N : int
-        number of grid points
-    mesh_grid : bool (default False)
-        if you want the result of meshgrid(θ, θ)
-
-    Returns
-    -------
-    s : array
-        N point grid of [0, L)
-    Δs : float
-        grid size
-    S : array (if mesh_grid=True)
-        second output of meshgrid(s, s)
-    T : array (if mesh_grid=True)
-        first output of meshgrid(s, s)
-    """
-
-    m = 1 - ε * ε
-    n = (N - 4) // 4
-
-    πo2 = np.pi / 2
-    Lo4 = ellipe(m)
-
-    vL, Δs = np.linspace(0, Lo4, num=n + 2, retstep=True)
-
-    vx = np.array([brentq(lambda s: ellipeinc(s, m) - l, 0, πo2) for l in vL[1:-1]])
-    vy = np.array([*(-vx[::-1]), 0, *vx])
-    vs = np.array([-πo2, *vy, πo2, *(np.pi - vy[::-1])])
-
-    if mesh_grid:
-        T, S = np.meshgrid(vs, vs)
-        return vs, Δs, S, T
-
-    return vs, Δs
 
 
 def half_grid(N, mesh_grid=False):

@@ -3,21 +3,19 @@
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
 
-    Last modified: 16/02/2021
+    Last modified: 15/04/2021
 """
 
 from math import cos, sin
 
-from numpy import cos as np_cos
-from numpy import exp, hypot, pi
-from numpy import sin as np_sin
+import numpy as np
 
 from .helmholtz_exterior import create_field
 from .mathieu import ce, se
 
 
 def plane_wave(α, k, x, y):
-    return exp(1j * k * (cos(α) * x + sin(α) * y))
+    return np.exp(1j * k * (cos(α) * x + sin(α) * y))
 
 
 def plane_wave_trace(α, k, a, b, η, p):
@@ -50,16 +48,16 @@ def plane_wave_trace(α, k, a, b, η, p):
     """
 
     if p == 0:
-        return exp(1j * k * (cos(α) * a * np_cos(η) + sin(α) * b * np_sin(η)))
+        return np.exp(1j * k * (cos(α) * a * np.cos(η) + sin(α) * b * np.sin(η)))
 
     cα, sα = cos(α), sin(α)
-    cη, sη = np_cos(η), np_sin(η)
+    cη, sη = np.cos(η), np.sin(η)
     return (
         1j
         * k
         * (b * cη * cα + a * sη * sα)
-        * exp(1j * k * (cα * a * cη + sα * b * sη))
-        / hypot(a * sη, b * cη)
+        * np.exp(1j * k * (cα * a * cη + sα * b * sη))
+        / np.hypot(a * sη, b * cη)
     )
 
 
@@ -88,7 +86,7 @@ def field_plane_wave(α, k, c, M):
     """
 
     q = c * c * k * k / 4
-    απ2 = pi / 2 - α
+    απ2 = np.pi / 2 - α
 
     coef_c1 = []
     for m in range(M + 1):

@@ -3,11 +3,11 @@
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
 
-    Last modified: 13/04/2021
+    Last modified: 15/04/2021
 """
 from dataclasses import dataclass
 
-from numpy import pi, zeros_like
+import numpy as np
 
 from .mathieu import Mce1, Mce2, Mce3, Mce4, Mse1, Mse2, Mse3, Mse4, ce, se
 
@@ -121,7 +121,7 @@ def eval_field(field, ξ, η, p=0):
 
     q = field.q
 
-    u = zeros_like(ξ, dtype=complex) * zeros_like(η)
+    u = np.zeros(np.broadcast_shapes(np.shape(ξ), np.shape(η)), dtype=complex)
 
     for coef_c_, Mce_ in zip(field.coef_ce, (Mce1, Mce2, Mce3, Mce4)):
         for m, c in coef_c_:
@@ -203,8 +203,8 @@ def expansion_trace(field):
     """
 
     return (
-        lambda θ: eval_field(field, 0, pi / 2 - θ),
-        lambda θ: eval_field(field, 0, pi / 2 - θ, p=1),
+        lambda θ: eval_field(field, 0, np.pi / 2 - θ),
+        lambda θ: eval_field(field, 0, np.pi / 2 - θ, p=1),
     )
 
 
@@ -228,9 +228,9 @@ def eval_far_field(field, θ):
     """
 
     q = field.q
-    η = pi / 2 - θ
+    η = np.pi / 2 - θ
 
-    u = zeros_like(η, dtype=complex)
+    u = np.zeros_like(η, dtype=complex)
 
     for m, c in field.coef_ce[2]:
         u += (c * (-1j) ** m) * ce(m, q, η)
