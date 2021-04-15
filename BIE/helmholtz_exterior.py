@@ -22,7 +22,7 @@ def helmholtz_pqr(boundary, k, trace, nb, matrix=False):
     """
     μ, c, θ = helmholtz_pqr(boundary, k, trace, nb, matrix=False)
 
-    The PQR (Kress) method for the Helmholtz problem.
+    The Product Quadrature Rule (PQR) method, by Kress, for the Helmholtz problem.
 
     Parameters
     ----------
@@ -103,7 +103,7 @@ def helmholtz_mpqr(boundary, k, trace, nb, ε, matrix=False):
     """
     μ, c, θ = helmholtz_mpqr(boundary, k, trace, nb, ε, matrix=False)
 
-    The MPQR method for the Helmholtz problem.
+    The Modified Product Quadrature Rule (MPQR) method for the Helmholtz problem.
 
     Parameters
     ----------
@@ -191,7 +191,7 @@ def helmholtz_qpax(ε, k, expan_trace, N, matrix=False):
     """
     μ, c, θ = helmholtz_qpax(boundary, k, trace, nb, ε, matrix=False)
 
-    The method based on the asymptotic expansion of the operator for the Helmholtz
+    The Quadrature by Parity Asymptotic eXpansions (QPAX) method for the Helmholtz
     problem.
 
     Parameters

@@ -20,7 +20,7 @@ def laplace_ptr(boundary, trace, nb, matrix=False):
     """
     μ, c, θ = laplace_ptr(boundary, trace, nb, matrix=False)
 
-    The PTR method for the Laplace problem.
+    The Periodic Trapezoid Rule (PTR) method for the Laplace problem.
 
     Parameters
     ----------
@@ -78,7 +78,7 @@ def laplace_mtr(boundary, trace, nb, ε, matrix=False):
     """
     μ, c, θ = laplace_mtr(boundary, trace, nb, ε, matrix=False)
 
-    The MTR method for the Laplace problem.
+    The Modified Trapezoid Rule (MTR) method for the Laplace problem.
 
     Parameters
     ----------
@@ -143,7 +143,7 @@ def laplace_qpax(ε, trace_ev_od, N, matrix=False):
     """
     μ, c, θ = laplace_asy(boundary, trace_ev_od, N, ε, matrix=False)
 
-    The QPAX method for the Laplace problem.
+    The Quadrature by Parity Asymptotic eXpansions (QPAX) method for the Laplace problem.
 
     Parameters
     ----------
