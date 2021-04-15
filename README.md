@@ -44,7 +44,6 @@ git clone https://github.com/zmoitier/Scattering_BIE_QPAX.git
 ### Notebook version
 
 Run the Jupyter notebook `run_fig_n.ipynb` to get the corresponding figure `n` in the paper.
-Run the Jupyter notebook `inner_expansions.ipynb` in the Symbolic_expansions folder to get the corresponding inner expansions for Laplace and Helmholtz double-layer potentials.
 
 ### Script version
 
@@ -57,3 +56,8 @@ python -m Scripts.run_fig_n
 ```
 
 to get the corresponding figure `n` in the paper.
+
+## Symbolic expressions
+
+The Symbolic_expansions folder provides inner expansions for Laplace and Helmholtz double-layer potentials using Mathematica notebook or SymPy (see section 3 and 4 or the associted manuscript). 
+
