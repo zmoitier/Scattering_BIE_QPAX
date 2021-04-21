@@ -59,5 +59,8 @@ to get the corresponding figure `n` in the paper.
 
 ## Symbolic expressions
 
-The Symbolic_expansions folder provides inner expansions for Laplace and Helmholtz double-layer potentials using Mathematica notebook or SymPy (see section 3 and 4 or the associted manuscript). 
+The Symbolic_expansions folder provides inner expansions for Laplace and Helmholtz double-layer potentials using Mathematica notebook or SymPy (see section 3 and 4 or the associted manuscript).
 
+## Contact
+
+If you have any questions or suggestions please feel free to create [an issue in this repository](https://github.com/zmoitier/Scattering_BIE_QPAX/issues/new).
