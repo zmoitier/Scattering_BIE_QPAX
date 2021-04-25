@@ -23,7 +23,9 @@ Codes are associated with the article:
 
   - For symbolic computations: [SymPy](https://github.com/sympy/sympy);
 
-  - For visualization: [IPython](https://github.com/ipython/ipython), [Matplotlib](https://github.com/matplotlib/matplotlib), and [seaborn](https://github.com/mwaskom/seaborn).
+  - For visualization: [Matplotlib](https://github.com/matplotlib/matplotlib) and [seaborn](https://github.com/mwaskom/seaborn);
+
+  - For Jupyter notebook: [IPython](https://github.com/ipython/ipython) and [JupyterLab](https://github.com/jupyterlab/jupyterlab).
 
 Might works with previous versions of the libraries but if it does not works try to update the libraries for example through pip
 
