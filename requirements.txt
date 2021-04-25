@@ -1,0 +1,8 @@
+ipython>=7.22.0
+ipywidgets>=7.6.3
+jupyterlab>=2.2.8
+matplotlib>=3.4.1
+numpy>=1.20.2
+seaborn>=0.11.1
+scipy>=1.6.2
+sympy>=1.8

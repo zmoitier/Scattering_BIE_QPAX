@@ -19,16 +19,18 @@ Codes are associated with the article:
 
 - Require the following libraries:
 
-  - Numerical computation: [NumPy](https://github.com/numpy/numpy) (≥ 1.20.2) and [SciPy](https://github.com/scipy/scipy) (≥ 1.6.2);
+  - For numerical computations: [NumPy](https://github.com/numpy/numpy) and [SciPy](https://github.com/scipy/scipy);
 
-  - Visualization; [Matplotlib](https://github.com/matplotlib/matplotlib) (≥ 3.4.1) and [seaborn](https://github.com/mwaskom/seaborn) (≥ 0.11.1);
+  - For symbolic computations: [SymPy](https://github.com/sympy/sympy);
 
-  - Formal computation: [SymPy](https://github.com/sympy/sympy) (≥ 1.8).
+  - For visualization: [Matplotlib](https://github.com/matplotlib/matplotlib) and [seaborn](https://github.com/mwaskom/seaborn);
 
-Might works with previous versions of the libraries but if it does not works try to update the library for example through pip
+  - For Jupyter notebook: [IPython](https://github.com/ipython/ipython), [ipywidgets](https://github.com/jupyter-widgets/ipywidgets), and [JupyterLab](https://github.com/jupyterlab/jupyterlab).
+
+Might works with previous versions of the libraries but if it does not works try to update the libraries for example through pip
 
 ```bash
-python3 -m pip install --user --upgrade matplotlib numpy seaborn scipy sympy
+python3 -m pip install --user --upgrade -r requirements.txt
 ```
 
 ## Install
@@ -51,7 +53,11 @@ In the current directory run
 
 ```bash
 python3 -m Scripts.run_fig_n
+```
+
 or
+
+```bash
 python -m Scripts.run_fig_n
 ```
 
@@ -59,7 +65,7 @@ to get the corresponding figure `n` in the paper.
 
 ## Symbolic expressions
 
-The Symbolic_expansions folder provides inner expansions for Laplace and Helmholtz double-layer potentials using Mathematica notebook or SymPy (see section 3 and 4 or the associted manuscript).
+The Symbolic_expansions folder provides inner expansions for Laplace and Helmholtz double-layer potentials using Mathematica notebook or SymPy (see section 3 and 4 or the associated manuscript).
 
 ## Contact
 
