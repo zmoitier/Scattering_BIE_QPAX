@@ -75,7 +75,7 @@ def field_plane_wave(α, k, c, M):
     k : float > 0
         wavenumber of the plane wave
     c : float > 0
-        (0, ±c) focal ponits of the ellipse
+        (0, ±c) focal points of the ellipse
     M : int
         number of modes in the expansion
 
