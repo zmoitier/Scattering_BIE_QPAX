@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/357627837.svg)](https://zenodo.org/badge/latestdoi/357627837)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4692601.svg)](https://doi.org/10.5281/zenodo.4692601)
 
 # Scattering_BIE_QPAX
 
