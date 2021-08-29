@@ -2,10 +2,9 @@
 
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
-
-    Last modified: 15/04/2021
 """
 import numpy as np
+from scipy.optimize import brentq
 from scipy.sparse import coo_matrix
 
 

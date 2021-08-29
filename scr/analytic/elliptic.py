@@ -2,12 +2,10 @@
 
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
-
-    Last modified: 15/04/2021
 """
 from math import atanh, sqrt
 
-import numpy as np
+from numpy import arccosh, imag, real
 
 
 def to_elliptic(c, x, y):
@@ -38,8 +36,8 @@ def to_elliptic(c, x, y):
         ``angular'' coordinate
     """
 
-    w = np.arccosh((y + 1j * x) / abs(c))
-    return (np.real(w), np.imag(w))
+    w = arccosh((y + 1j * x) / abs(c))
+    return (real(w), imag(w))
 
 
 def ellipse_param(a, b):

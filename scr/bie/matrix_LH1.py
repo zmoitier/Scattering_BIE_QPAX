@@ -2,8 +2,6 @@
 
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
-
-    Last modified: 07/04/2021
 """
 import numpy as np
 from scipy.sparse import diags

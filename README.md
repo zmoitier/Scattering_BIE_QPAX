@@ -8,14 +8,28 @@ Quadrature by Parity eXpansions method for computing the scattering by a high as
 
 Codes are associated with the article:
 
-- C. Carvalho, A. D. Kim, L. Lewis, and Z. Moitier, _Quadrature by Parity Asymptotic eXpansions (QPAX) for scattering by high aspect ratio particles_. [in preparation]
+- C. Carvalho, A. D. Kim, L. Lewis, and Z. Moitier, _Quadrature by Parity Asymptotic eXpansions (QPAX) for scattering by high aspect ratio particles_. [[arXiv](https://arxiv.org/abs/2105.02136)]
+
+The bibtex entry can be access by the command.
+
+```bash
+python3 -c "from scr import __bibtex__; print(__bibtex__)"
+@misc{carvalho2021quadrature,
+      title={Quadrature by Parity Asymptotic eXpansions (QPAX) for scattering by high aspect ratio particles},
+      author={Camille Carvalho and Arnold D. Kim and Lori Lewis and Zoïs Moitier},
+      year={2021},
+      eprint={2105.02136},
+      archivePrefix={arXiv},
+      primaryClass={math.NA}
+}
+```
 
 ## Requirements
 
 - Python version:
 
-  - Tested on Python 3.8;
-  - Should works on Python 3.7 but not tested.
+  - Tested on Python 3.9;
+  - Should works on Python ≥3.7 but not tested.
 
 - Require the following libraries:
 
@@ -43,25 +57,7 @@ git clone https://github.com/zmoitier/Scattering_BIE_QPAX.git
 
 ## Instructions for usage
 
-### Notebook version
-
 Run the Jupyter notebook `run_fig_n.ipynb` to get the corresponding figure `n` in the paper.
-
-### Script version
-
-In the current directory run
-
-```bash
-python3 -m Scripts.run_fig_n
-```
-
-or
-
-```bash
-python -m Scripts.run_fig_n
-```
-
-to get the corresponding figure `n` in the paper.
 
 ## Symbolic expressions
 

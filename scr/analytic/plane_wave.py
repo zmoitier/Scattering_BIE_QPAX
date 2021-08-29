@@ -2,20 +2,41 @@
 
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
-
-    Last modified: 15/04/2021
 """
 
 from math import cos, sin
 
-import numpy as np
+from numpy import cos as np_cos
+from numpy import exp, hypot, pi
+from numpy import sin as np_sin
 
 from .helmholtz_exterior import create_field
 from .mathieu import ce, se
 
 
 def plane_wave(α, k, x, y):
-    return np.exp(1j * k * (cos(α) * x + sin(α) * y))
+    """
+    u = plane_wave(α, k, x, y)
+
+    Compute the  plane wave with direction (cos(α), sin(α)) and wavenumber k.
+
+    Parameters
+    ----------
+    α : float
+        (cos(α), sin(α)) direction of the plane wave
+    k : float > 0
+        wavenumber of the plane wave
+    x : array_like
+        x coordinate
+    y : array_like
+        y coordinate
+
+    Returns
+    -------
+    u : array_like
+        values of the plane wave
+    """
+    return exp(1j * k * (cos(α) * x + sin(α) * y))
 
 
 def plane_wave_trace(α, k, a, b, η, p):
@@ -48,34 +69,36 @@ def plane_wave_trace(α, k, a, b, η, p):
     """
 
     if p == 0:
-        return np.exp(1j * k * (cos(α) * a * np.cos(η) + sin(α) * b * np.sin(η)))
+        return exp(1j * k * (cos(α) * a * np_cos(η) + sin(α) * b * np_sin(η)))
 
     cα, sα = cos(α), sin(α)
-    cη, sη = np.cos(η), np.sin(η)
+    cη, sη = np_cos(η), np_sin(η)
     return (
         1j
         * k
         * (b * cη * cα + a * sη * sα)
-        * np.exp(1j * k * (cα * a * cη + sα * b * sη))
-        / np.hypot(a * sη, b * cη)
+        * exp(1j * k * (cα * a * cη + sα * b * sη))
+        / hypot(a * sη, b * cη)
     )
 
 
-def field_plane_wave(α, k, c, M):
+def field_plane_wave(ε, c, α, k, M):
     """
-    field = field_plane_wave(α, k, c, M)
+    field = field_plane_wave(ε, c, α, k, M)
 
     Compute the Field corresponding to a plane wave with direction (cos(α), sin(α)) and
     wavenumber k on the ellipse of focal points (0, ±c).
 
     Parameters
     ----------
+    ε : float > 0
+        parameter for elliptical coordinates
+    c : float > 0
+        (0, ±c) focal ponits of the ellipse
     α : float
         (cos(α), sin(α)) direction of the plane wave
     k : float > 0
         wavenumber of the plane wave
-    c : float > 0
-        (0, ±c) focal points of the ellipse
     M : int
         number of modes in the expansion
 
@@ -86,7 +109,7 @@ def field_plane_wave(α, k, c, M):
     """
 
     q = c * c * k * k / 4
-    απ2 = np.pi / 2 - α
+    απ2 = pi / 2 - α
 
     coef_c1 = []
     for m in range(M + 1):
@@ -100,4 +123,4 @@ def field_plane_wave(α, k, c, M):
         if abs(c_se) > 1e-8:
             coef_s1.append((m, c_se))
 
-    return create_field(c, k, [coef_c1, [], [], []], [coef_s1, [], [], []])
+    return create_field(ε, c, k, [coef_c1, [], [], []], [coef_s1, [], [], []])

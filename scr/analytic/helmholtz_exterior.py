@@ -2,12 +2,10 @@
 
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
-
-    Last modified: 15/04/2021
 """
 from dataclasses import dataclass
 
-import numpy as np
+from numpy import broadcast_shapes, shape, zeros
 
 from .mathieu import Mce1, Mce2, Mce3, Mce4, Mse1, Mse2, Mse3, Mse4, ce, se
 
@@ -20,23 +18,29 @@ class Field:
 
     Attributes
     ----------
+    ε : float
+        parameter for elliptical coordinates
+    c : float
+        (0, ±c) focal point of the Elliptic coordinates
     k : float
-        Wavenumber.
+        Wavenumber
     q : float
-        The q parameter in Mathieu ODEs, q = c² * k² / 4.
+        The q parameter in Mathieu ODEs, q = c² * k² / 4
     coef_ce : list{list{tuple{int, number}}}
         Coefficients in front of  Mce⁽ⁱ⁾ₘ(ξ, q) * ceₘ(η, q)
     coef_se : list{list{tuple{int, number}}}
         Coefficients in front of Mse⁽ⁱ⁾ₘ(ξ, q) * seₘ(η, q)
     """
 
+    ε: float
+    c: float
     k: float
     q: float
     coef_ce: list
     coef_se: list
 
 
-def create_field(c, k, coef_ce, coef_se):
+def create_field(ε, c, k, coef_ce, coef_se):
     """
     field = create_field(c, k, coef_ce, coef_se)
 
@@ -44,6 +48,8 @@ def create_field(c, k, coef_ce, coef_se):
 
     Parameters
     ----------
+    ε : float
+        parameter for elliptical coordinates
     c : float
         (0, ±c) focal point of the Elliptic coordinates
     k : float
@@ -58,7 +64,7 @@ def create_field(c, k, coef_ce, coef_se):
     field : Field
     """
 
-    return Field(k, c * c * k * k / 4, coef_ce, coef_se)
+    return Field(ε, c, k, c * c * k * k / 4, coef_ce, coef_se)
 
 
 def solve_field(incident_field, ξ0, p):
@@ -82,25 +88,28 @@ def solve_field(incident_field, ξ0, p):
     field : Field
     """
 
+    ε = incident_field.ε
+    c = incident_field.c
+    k = incident_field.k
     q = incident_field.q
 
     coef_c3 = []
     coef_s3 = []
 
     for coef_c_, Mce_ in zip(incident_field.coef_ce, (Mce1, Mce2, Mce3, Mce4)):
-        for m, c in coef_c_:
-            coef_c3.append((m, -c * Mce_(m, q, ξ0, p) / Mce3(m, q, ξ0, p)))
+        for m, d in coef_c_:
+            coef_c3.append((m, -d * Mce_(m, q, ξ0, p=p) / Mce3(m, q, ξ0, p=p)))
 
     for coef_s_, Mse_ in zip(incident_field.coef_se, (Mse1, Mse2, Mse3, Mse4)):
-        for m, c in coef_s_:
-            coef_s3.append((m, -c * Mse_(m, q, ξ0, p) / Mse3(m, q, ξ0, p)))
+        for m, d in coef_s_:
+            coef_s3.append((m, -d * Mse_(m, q, ξ0, p=p) / Mse3(m, q, ξ0, p=p)))
 
-    return Field(incident_field.k, q, [[], [], coef_c3, []], [[], [], coef_s3, []])
+    return Field(ε, c, k, q, [[], [], coef_c3, []], [[], [], coef_s3, []])
 
 
-def eval_field(field, ξ, η, p=0):
+def eval_field(field, ξ, η, *, d_ξ=0, d_η=0):
     """
-    u = eval_field(field, ξ, η)
+    u = eval_field(field, ξ, η, *, d_ξ=0, d_η=0)
 
     Compute the field in the Elliptic coordinates.
 
@@ -112,6 +121,14 @@ def eval_field(field, ξ, η, p=0):
         radial Elliptic coordinate
     η : array_like
         angular Elliptic coordinate
+    d_ξ : 0 or 1 or 2 (default 0)
+        0 for the value of the field
+        1 for the ∂_ξ derivative of the field
+        2 for the ∂_ξξ derivative of the field
+    d_η : 0 or 1 or 2 (default 0)
+        0 for the value of the field
+        1 for the ∂_η derivative of the field
+        2 for the ∂_ηη derivative of the field
 
     Returns
     -------
@@ -121,15 +138,15 @@ def eval_field(field, ξ, η, p=0):
 
     q = field.q
 
-    u = np.zeros(np.broadcast_shapes(np.shape(ξ), np.shape(η)), dtype=complex)
+    u = zeros(broadcast_shapes(shape(ξ), shape(η)), dtype=complex)
 
     for coef_c_, Mce_ in zip(field.coef_ce, (Mce1, Mce2, Mce3, Mce4)):
         for m, c in coef_c_:
-            u += c * ce(m, q, η) * Mce_(m, q, ξ, p=p)
+            u += c * ce(m, q, η, p=d_η) * Mce_(m, q, ξ, p=d_ξ)
 
     for coef_s_, Mse_ in zip(field.coef_se, (Mse1, Mse2, Mse3, Mse4)):
         for m, c in coef_s_:
-            u += c * se(m, q, η) * Mse_(m, q, ξ, p=p)
+            u += c * se(m, q, η, p=d_η) * Mse_(m, q, ξ, p=d_ξ)
 
     return u
 
@@ -155,7 +172,7 @@ def field_even_part(field):
     ):
         raise Warning("The even part of the field is zero.")
 
-    return Field(field.k, field.q, field.coef_ce, [[], [], [], []])
+    return Field(field.ε, field.c, field.k, field.q, field.coef_ce, [[], [], [], []])
 
 
 def field_odd_part(field):
@@ -179,63 +196,4 @@ def field_odd_part(field):
     ):
         raise Warning("The odd part of the field is zero.")
 
-    return Field(field.k, field.q, [[], [], [], []], field.coef_se)
-
-
-def expansion_trace(field):
-    """
-    u0, u1 = expansion_trace(field)
-
-    Return the fist two terms of the asymptotic expansion of the trace along the
-    ellipse.
-
-    Parameters
-    ----------
-    field : Field
-        Field object from the dataclass
-
-    Returns
-    -------
-    u0 : Function
-        θ ↦ uⁱⁿᶜ(0, sin(θ))
-    u1 : Function
-        θ ↦ cos(θ) ∂ₓ uⁱⁿᶜ(0, sin(θ))
-    """
-
-    return (
-        lambda θ: eval_field(field, 0, np.pi / 2 - θ),
-        lambda θ: eval_field(field, 0, np.pi / 2 - θ, p=1),
-    )
-
-
-def eval_far_field(field, θ):
-    """
-    u = eval_far_field(field, θ)
-
-    Return the far field pattern from a field.
-
-    Parameters
-    ----------
-    field : Field
-        Field object from the dataclass
-    θ : array_like
-        Field object from the dataclass
-
-    Returns
-    -------
-    u : array_like
-        θ ↦ far field pattern
-    """
-
-    q = field.q
-    η = np.pi / 2 - θ
-
-    u = np.zeros_like(η, dtype=complex)
-
-    for m, c in field.coef_ce[2]:
-        u += (c * (-1j) ** m) * ce(m, q, η)
-
-    for m, c in field.coef_se[2]:
-        u += (c * (-1j) ** m) * se(m, q, η)
-
-    return u
+    return Field(field.ε, field.c, field.k, field.q, [[], [], [], []], field.coef_se)

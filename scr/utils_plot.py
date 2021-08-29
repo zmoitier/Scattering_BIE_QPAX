@@ -2,8 +2,6 @@
 
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
-
-    Last modified: 15/04/2021
 """
 import numpy as np
 
@@ -35,7 +33,7 @@ def logspace_quadrature(start, stop, num):
 
 def logspace_epsilon(start, stop, num):
     """
-    ε_vec, ε_str = logspace_epsilon(start, stop, num)
+    vec = logspace_epsilon(start, stop, num)
 
     Return the `num' equi-space float in log scale between `start' and `stop'.
 
@@ -50,44 +48,11 @@ def logspace_epsilon(start, stop, num):
 
     Returns
     -------
-    ε_vec : vector
-        equi-space float in log scale
-    ε_str : vector
-        string representation of ε_vec
+    vec : vector
+        equi-space interger in log scale
     """
 
-    ε_str = [f"{x:.1e}" for x in np.geomspace(start, stop, num=num)[::-1]]
-    ε_vec = [float(s) for s in ε_str]
-    return (ε_vec, ε_str)
-
-
-def linspace_alpha(start, stop, num):
-    """
-    α_vec, α_str = linspace_alpha(start, stop, num)
-
-    Return the `num' equi-space float between `start'*π and `stop'*π.
-
-    Parameters
-    ----------
-    start : int
-        starting float
-    stop : int
-        stoping float
-    num : int
-        number of float
-
-    Returns
-    -------
-    α_vec : vector
-        equi-space float
-    α_str : vector
-        string representation of α_vec
-    """
-
-    α_ = [f"{x:.2f}" for x in np.linspace(start, stop, num=num)]
-    α_vec = [float(s) * np.pi for s in α_]
-    α_str = [fr"${s}\pi$" for s in α_]
-    return (α_vec, α_str)
+    return np.array([float(f"{x:.1e}") for x in np.geomspace(start, stop, num=num)])
 
 
 def add_elem(v):

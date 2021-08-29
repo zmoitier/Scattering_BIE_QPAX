@@ -2,10 +2,8 @@
 
     Author: Zoïs Moitier
             Karlsruhe Institute of Technology, Germany
-
-    Last modified: 15/04/2021
 """
-import numpy as np
+from numpy import cos, sin
 from sympy import lambdify, symbols
 
 
@@ -38,10 +36,10 @@ def laplace_sol_eve(m, ε):
 
     if m % 2:
         c = (-2 / (1 - ρ ** m)).factor()
-        cossin = np.sin
+        cossin = sin
     else:
         c = (-2 / (1 + ρ ** m)).factor()
-        cossin = np.cos
+        cossin = cos
 
     fct = lambdify(e, c)
     return (lambda θ: cossin(m * θ), lambda θ: fct(ε) * cossin(m * θ))
@@ -76,10 +74,10 @@ def laplace_sol_odd(m, ε):
 
     if m % 2:
         c = (-2 / (1 + ρ ** m)).factor()
-        cossin = np.cos
+        cossin = cos
     else:
         c = (-2 / (1 - ρ ** m)).factor()
-        cossin = np.sin
+        cossin = sin
 
     fct = lambdify(e, c)
     return (lambda θ: cossin(m * θ), lambda θ: fct(ε) * cossin(m * θ))

@@ -1,9 +1,7 @@
 """ BIE for Laplace interior
 
     Author: Zoïs Moitier
-            Karlsruhe Institute of Technology, Germany
-
-    Last modified: 15/04/2021
+            Karlsruhe Institute of Technology, 
 """
 from math import atan
 
@@ -20,7 +18,7 @@ def laplace_ptr(boundary, trace, nb, matrix=False):
     """
     μ, c, θ = laplace_ptr(boundary, trace, nb, matrix=False)
 
-    The Periodic Trapezoid Rule (PTR) method for the Laplace problem.
+    The PTR method for the Laplace problem.
 
     Parameters
     ----------
@@ -74,11 +72,11 @@ def laplace_ptr(boundary, trace, nb, matrix=False):
     return μ, cond(A), θ
 
 
-def laplace_mtr(boundary, trace, nb, ε, matrix=False):
+def laplace_mtr(boundary, trace, nb, matrix=False):
     """
-    μ, c, θ = laplace_mtr(boundary, trace, nb, ε, matrix=False)
+    μ, c, θ = laplace_mtr(boundary, trace, nb, matrix=False)
 
-    The Modified Trapezoid Rule (MTR) method for the Laplace problem.
+    The MTR method for the Laplace problem.
 
     Parameters
     ----------
@@ -88,8 +86,6 @@ def laplace_mtr(boundary, trace, nb, ε, matrix=False):
         the function θ ↦ f(θ) the source term of the BIE
     nb : int
         number of grid points
-    ε : float
-        semi-minor axis of the ellipse
     matrix : bool (default False)
         c is the condition number if matrix=False and the matrix if matrix=True
 
@@ -103,6 +99,7 @@ def laplace_mtr(boundary, trace, nb, ε, matrix=False):
         θ-grid of the boundary
     """
 
+    ε = boundary.ε
     θ, Δθ, S, T = grid(nb, mesh_grid=True)
 
     x_s, y_s = boundary.gamma(S)
@@ -139,11 +136,11 @@ def laplace_mtr(boundary, trace, nb, ε, matrix=False):
     return μ, cond(A), θ
 
 
-def laplace_qpax(ε, trace_ev_od, N, matrix=False):
+def laplace_qpax(boundary, trace_ev_od, N, matrix=False):
     """
-    μ, c, θ = laplace_asy(boundary, trace_ev_od, N, ε, matrix=False)
+    μ, c, θ = laplace_asy(boundary, trace_ev_od, N, matrix=False)
 
-    The Quadrature by Parity Asymptotic eXpansions (QPAX) method for the Laplace problem.
+    The QPAX method for the Laplace problem.
 
     Parameters
     ----------
@@ -154,8 +151,6 @@ def laplace_qpax(ε, trace_ev_od, N, matrix=False):
         trace_ev_od[1] contain None or the function θ ↦ f(θ) the odd source term
     N : int
         number of grid points
-    ε : float
-        semi-minor axis of the ellipse
     matrix : bool (default False)
         c is the condition number if matrix=False and the matrix if matrix=True
 
@@ -169,6 +164,7 @@ def laplace_qpax(ε, trace_ev_od, N, matrix=False):
         θ-grid of the boundary
     """
 
+    ε = boundary.ε
     n = N // 2
     θ, _ = grid(N)
 
