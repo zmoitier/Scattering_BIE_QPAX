@@ -8,20 +8,17 @@ Quadrature by Parity eXpansions method for computing the scattering by a high as
 
 Codes are associated with the article:
 
-- C. Carvalho, A. D. Kim, L. Lewis, and Z. Moitier, _Quadrature by Parity Asymptotic eXpansions (QPAX) for scattering by high aspect ratio particles_. [[arXiv](https://arxiv.org/abs/2105.02136)]
+- C. Carvalho, A. D. Kim, L. Lewis, and Z. Moitier, _Quadrature by Parity Asymptotic eXpansions (QPAX) for scattering by high aspect ratio particles_, SIAM Multiscale Modeling & Simulation (2021). [[arXiv](https://arxiv.org/abs/2105.02136), [DOI](https://doi.org/10.1137/21M1416801)]
+
+and the proceeding:
+
+- C. Carvalho, A. D. Kim, and Z. Moitier, _Quadrature by Parity Asymptotic eXpansions (QPAX) for light scattering by high
+aspect ratio plasmonic particle_, SIAM Multiscale Modeling & Simulation (2021). [Submited]
 
 The bibtex entry can be access by the command.
 
 ```bash
-python3 -c "from scr import __bibtex__; print(__bibtex__)"
-@misc{carvalho2021quadrature,
-      title={Quadrature by Parity Asymptotic eXpansions (QPAX) for scattering by high aspect ratio particles},
-      author={Camille Carvalho and Arnold D. Kim and Lori Lewis and Zoïs Moitier},
-      year={2021},
-      eprint={2105.02136},
-      archivePrefix={arXiv},
-      primaryClass={math.NA}
-}
+python3 -c "from src import __bibtex__; print(__bibtex__)"
 ```
 
 ## Requirements
@@ -47,6 +44,12 @@ Might works with previous versions of the libraries but if it does not works try
 python3 -m pip install --user --upgrade -r requirements.txt
 ```
 
+and for the dev dependencies
+
+```bash
+python3 -m pip install --user --upgrade -r requirements-dev.txt
+```
+
 ## Install
 
 Clone from GitHub repository:
@@ -57,7 +60,7 @@ git clone https://github.com/zmoitier/Scattering_BIE_QPAX.git
 
 ## Instructions for usage
 
-Run the Jupyter notebook `run_fig_n.ipynb` to get the corresponding figure `n` in the paper.
+Run the Jupyter notebook `notebook_article/run_fig_n.ipynb` to get the corresponding figure `n` in the article and run the Jupyter notebook `notebook_proceeding/run_fig_n.ipynb` to get the corresponding figure `n` in the proceeding.
 
 ## Symbolic expressions
 
