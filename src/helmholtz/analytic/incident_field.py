@@ -34,7 +34,7 @@ def comp_monofield(
     index = []
     coeff = []
     for m, c in zip(m_vec, c_vec):
-        if abs(c) > 1e-8:
+        if abs(c) > 1e-10: ##CC change
             index.append(m)
             coeff.append(c)
 
@@ -50,8 +50,8 @@ def plane_wave_field(obs: Obstacle, α: float, k: float, M: int) -> IncidentFiel
     q = obs.c * obs.c * k * k / 4
     απ2 = pi / 2 - α
 
-    f_even = comp_monofield(q, απ2, ce, Mce1, arange(M + 1))
-    f_odd = comp_monofield(q, απ2, se, Mse1, arange(1, M + 1))
+    f_even = comp_monofield(q, απ2, ce, Mce1, arange(M + 1)) 
+    f_odd = comp_monofield(q, απ2, se, Mse1, arange(1, M + 1)) 
 
     return IncidentField(even=f_even, odd=f_odd)
 
